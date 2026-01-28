@@ -1,0 +1,489 @@
+//
+// ========== PRISMA SCHEMA (Final Version) ==========
+//
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url= env("DATABASE_URL")
+}
+
+//
+// ===== ENUMS =====
+//
+
+enum Role {
+  ADMIN
+  NGO_STAFF
+  FIELD_TEAM
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum StudentStatus {
+  ACTIVE
+  DROPOUT
+  RETURNED
+  AT_RISK
+}
+
+enum DonationStatus {
+  PENDING
+  CONFIRMED
+  ALLOCATED
+  USED
+}
+
+enum VisitType {
+  INITIAL
+  REGULAR
+  EMERGENCY
+}
+
+enum InteractionType {
+  INTERVIEW
+  PHONE_CALL
+  HOME_VISIT
+}
+
+enum ProgramStatus {
+  ENROLLED
+  COMPLETED
+  DROPPED
+}
+
+enum NotificationType {
+  USER_ALERT
+  DONOR_ALERT
+}
+
+enum ExpenseTargetType {
+  STUDENT
+  SCHOOL
+  VENDOR
+}
+
+enum CriteriaType {
+  NUMBER
+  PERCENT
+  BOOLEAN
+  ENUM
+}
+
+enum Direction {
+  HIGHER_BETTER
+  LOWER_BETTER
+}
+
+//
+// ===== MODELS =====
+//
+
+//1
+model User {
+  id             Int      @id @default(autoincrement())
+  fullName       String
+  email          String   @unique
+  passwordHash   String
+  role           Role
+  organizationId Int?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  nationalNumber String
+
+  followUpVisits      FollowUpVisit[]
+  activityLogs        ActivityLog[]
+  notifications       Notification[]
+
+  deviceTokens DeviceToken[] // 👈 add this
+  Expense      Expense[]
+
+  @@map("User")
+}
+
+//2
+model Guardian {
+  id                Int      @id @default(autoincrement())
+  fullName          String
+  phone             String?
+  relationToStudent String
+  notes             String?
+  createdAt         DateTime @default(now())
+  nationalNumber    String   @unique
+
+  students     Student[]
+  interactions FollowUpVisit[]
+
+  @@map("Guardian")
+}
+
+//3
+model School {
+  id          Int     @id @default(autoincrement())
+  name        String
+  region      String
+  address     String?
+  locationId  Int?
+  capacity    Int?
+  contactInfo String?
+
+  location Location? @relation(fields: [locationId], references: [id])
+  students Student[]
+
+  @@map("School")
+}
+
+//4
+model Location {
+  id       Int       @id @default(autoincrement())
+  name     String
+  region   String
+  students Student[]
+  schools  School[]
+
+  @@map("Location")
+}
+
+//5
+model Donor {
+  id                Int            @id @default(autoincrement())
+  name              String
+  email             String         @unique()
+  passwordHash      String
+  nationalNumber    String
+  phone             String?
+  isAnonymous       Boolean        @default(false)
+  verified          Boolean        @default(false)
+  verificationToken String?
+  createdAt         DateTime       @default(now())
+  donations         Donation[]
+  notifications     Notification[] // 👈 add this
+  deviceTokens      DeviceToken[] // 👈 add this
+
+  @@map("Donor")
+}
+
+//6
+model DonationPurpose {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  isActive    Boolean @default(true)
+
+  donations Donation[]
+  Expense   Expense[]
+
+  @@map("DonationPurpose")
+}
+
+//7
+model Donation {
+  id                   Int            @id @default(autoincrement())
+  donorId              Int
+  studentId            Int?
+  purposeId            Int
+  amount               Float
+  remainingAmount      Float          @default(0)
+  currency             String         @default("SYP")
+  status               DonationStatus
+  paymentMethod        String?
+  transactionReference String?
+  donationDate         DateTime       @default(now())
+  createdAt            DateTime       @default(now())
+
+  donor       Donor                       @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  student     Student?                    @relation(fields: [studentId], references: [id])
+  purpose     DonationPurpose             @relation(fields: [purposeId], references: [id])
+  allocations DonationExpenseAllocation[]
+
+  @@map("Donation")
+}
+
+//9
+model DropoutReason {
+  id          Int    @id @default(autoincrement())
+  description String
+  category    String
+
+  students Student[]
+
+  @@map("DropoutReason")
+}
+
+//10
+model Student {
+  id Int @id @default(autoincrement())
+
+  // 🔹 معلومات أساسية
+  fullName       String
+  dateOfBirth    DateTime
+  gender         Gender
+  nationalNumber String   @unique
+  nationality    String?
+  photoUrl       String?
+
+  // 🔹 تعليم
+  educationLevel     String? // ابتدائي - إعدادي - ثانوي
+  educationGapYears  Int?
+  lastGradeCompleted String?
+  literacyLevel      String? // ضعيف - متوسط - جيد
+
+  // 🔹 لغات
+  mainLanguage     String
+  acquiredLanguage String?
+  LanguageneedIt String?
+
+  // 🔹 اجتماعي / اقتصادي
+  familySize     Int?
+  monthlyIncome  Float?
+  incomeSource   String?
+  housingStatus  String? // إيجار - ملك - مخيم
+  hasDisability  Boolean @default(false)
+  disabilityType String?
+  supportNeeds   String?
+
+  // 🔹 الحالة التعليمية الحالية
+  status          StudentStatus
+  dropoutReasonId Int?
+  dropoutReason   DropoutReason? @relation(fields: [dropoutReasonId], references: [id], onDelete: SetNull, map: "Student_dropoutReasonId_fkey")
+
+  // 🔹 الموقع
+  locationId Int?
+  location   Location? @relation(fields: [locationId], references: [id], onDelete: SetNull, map: "Student_locationId_fkey")
+
+  // 🔹 العلاقات
+  guardianId Int?
+  guardian   Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull, map: "Student_guardianId_fkey")
+
+  schoolId Int?
+  school   School? @relation(fields: [schoolId], references: [id], onDelete: SetNull, map: "Student_schoolId_fkey")
+
+  // 🔹 التتبع والتقييم
+  riskLevel        String?
+  lastEvaluationAt DateTime?
+  notes            String?
+
+  // 🔹 علاقات النظام
+  documents       Document[]
+  donations       Donation[]
+  followUpVisits  FollowUpVisit[]
+  studentPrograms StudentProgram[]
+  expenses        Expense[]
+  studentCriteria StudentCriterion[]
+  classification  Classification?
+
+  // 🔹 ميتاداتا
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+}
+
+//11
+model FollowUpVisit {
+  id                      Int       @id @default(autoincrement())
+  studentId               Int
+  userId                  Int
+  visitDate               DateTime
+  visitType               VisitType
+  notes                   String?
+  guardianPresent         Boolean   @default(false)
+  guardianId      Int?
+  interactionType InteractionType?
+  noteForGuardian          String?
+  studentStatusAssessment String?
+  recommendations         String?
+  createdAt               DateTime  @default(now())
+  guardian Guardian? @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("FollowUpVisit")
+}
+
+
+//13
+model Document {
+  id         Int      @id @default(autoincrement())
+  studentId  Int
+  filePath   String
+  fileType   String
+  uploadDate DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("Document")
+}
+
+//14
+model SupportProgram {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  duration    String? // يمكن جعله Int إذا تريد بالأيام
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+
+  studentPrograms StudentProgram[]
+
+  @@map("SupportProgram")
+}
+
+//15
+model StudentProgram {
+  id              Int           @id @default(autoincrement())
+  student_id      Int
+  program_id      Int
+  enrollment_date DateTime      @default(now())
+  status          ProgramStatus @default(ENROLLED)
+  completion_date DateTime?
+
+  student Student        @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  program SupportProgram @relation(fields: [program_id], references: [id], onDelete: Cascade)
+
+  @@map("StudentProgram")
+}
+
+//16
+model ActivityLog {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  action      String
+  description String?
+  timestamp   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  created_at  DateTime @default(now())
+
+  @@map("ActivityLog")
+}
+
+//17
+model Notification {
+  id         Int              @id @default(autoincrement())
+  userId     Int?
+  donorId    Int?
+  type       NotificationType
+  title      String
+  message    String
+  link       String?
+  is_read    Boolean          @default(false)
+  created_at DateTime         @default(now())
+
+  user  User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  donor Donor? @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("Notification")
+}
+
+//18
+model DeviceToken {
+  id         Int      @id @default(autoincrement())
+  userId     Int?
+  donorId    Int?
+  token      String   @unique
+  deviceType String? // e.g., "ANDROID", "IOS", "WEB"
+  createdAt  DateTime @default(now())
+
+  user  User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  donor Donor? @relation(fields: [donorId], references: [id], onDelete: Cascade)
+
+  @@map("DeviceToken")
+}
+
+//19
+model Expense {
+  id            Int               @id @default(autoincrement())
+  studentId     Int?
+  schoolId      Int?
+  // vendorId   Int?    // لو أضفت جدول Vendor
+  targetType    ExpenseTargetType
+  purposeId     Int // نفس DonationPurpose أو جدول ثاني
+  amount        Float
+  currency      String            @default("SYP")
+  paymentMethod String?
+  description   String?
+  receiptUrl    String?
+  createdAt     DateTime          @default(now())
+  createdById   Int
+
+  student   Student?        @relation(fields: [studentId], references: [id])
+  // school School?        @relation(fields: [schoolId], references: [id])
+  purpose   DonationPurpose @relation(fields: [purposeId], references: [id])
+  createdBy User            @relation(fields: [createdById], references: [id])
+
+  allocations DonationExpenseAllocation[]
+
+  @@map("Expense")
+}
+
+//20
+model DonationExpenseAllocation {
+  id         Int   @id @default(autoincrement())
+  donationId Int
+  expenseId  Int
+  amount     Float
+
+  donation Donation @relation(fields: [donationId], references: [id], onDelete: Cascade)
+  expense  Expense  @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+
+  @@unique([donationId, expenseId]) // كل مصروف مرتبط مع التبرع مرة واحدة
+  @@map("DonationExpenseAllocation")
+}
+
+//21
+model PasswordReset {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("password_resets")
+}
+
+//22
+model Criteria {
+  id          Int          @id @default(autoincrement())
+  key         String       @unique
+  name        String
+  type        CriteriaType
+  direction   Direction
+  minValue    Float? // قيمة دنيا متوقعة (للتطبيع)
+  maxValue    Float? // قيمة عليا متوقعة
+  weight      Float        @default(1.0) // الوزن النسبي
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  sourceField String? // ✅ اسم الحقل في Student مثل: "monthlyIncome" أو "educationGapYears" أو "dateOfBirth"
+
+  studentValues StudentCriterion[]
+}
+
+//23
+model StudentCriterion {
+  id         Int      @id @default(autoincrement())
+  student    Student  @relation(fields: [studentId], references: [id])
+  studentId  Int
+  criteria   Criteria @relation(fields: [criteriaId], references: [id])
+  criteriaId Int
+  value      Float // القيمة الرقمية (boolean => 0/1, enum => mapped numeric)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([studentId, criteriaId])
+}
+
+//24
+model Classification {
+  id         Int      @id @default(autoincrement())
+  student    Student  @relation(fields: [studentId], references: [id])
+  studentId  Int      @unique
+  totalScore Float // 0..100
+  label      String // "High" | "Medium" | "Low" أو نص مخصّص
+  computedAt DateTime @default(now())
+}
