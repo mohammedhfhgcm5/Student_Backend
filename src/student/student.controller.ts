@@ -15,9 +15,9 @@ import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentStatus } from '@prisma/client';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { currentUser } from 'src/auth/decorator/current.user.decorator';
-import { PayloadDto } from 'src/auth/dto/auth.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { currentUser } from '../auth/decorator/current.user.decorator';
+import { PayloadDto } from '../auth/dto/auth.dto';
 
 @Controller('students')
   @UseGuards(JwtAuthGuard)

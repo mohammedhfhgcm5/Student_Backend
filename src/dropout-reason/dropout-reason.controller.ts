@@ -14,9 +14,9 @@ import {
 import { DropoutReasonService } from "./dropout-reason.service";
 import { CreateDropoutReasonDto } from "./dto/create-dropout-reason.dto";
 import { UpdateDropoutReasonDto } from "./dto/update-dropout-reason.dto";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { PayloadDto } from "src/auth/dto/auth.dto";
-import { currentUser } from "src/auth/decorator/current.user.decorator";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { PayloadDto } from "../auth/dto/auth.dto";
+import { currentUser } from "../auth/decorator/current.user.decorator";
 
 
 

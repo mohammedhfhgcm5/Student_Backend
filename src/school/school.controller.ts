@@ -1,4 +1,4 @@
-// src/school/school.controller.ts
+// ../school/school.controller.ts
 import {
   Controller,
   Get,
@@ -15,9 +15,9 @@ import {
 import { SchoolService } from "./school.service";
 import { CreateSchoolDto } from "./dto/create-school.dto";
 import { UpdateSchoolDto } from "./dto/update-school.dto";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { currentUser } from "src/auth/decorator/current.user.decorator";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { currentUser } from "../auth/decorator/current.user.decorator";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Controller("schools")
 @UseGuards(JwtAuthGuard)

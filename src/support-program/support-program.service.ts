@@ -3,8 +3,8 @@ import { PrismaService } from "prisma/prisma.service";
 import { CreateSupportProgramDto } from "./dto/create-support-program.dto";
 import { UpdateSupportProgramDto } from "./dto/update-support-program.dto";
 import { AssignProgramDto } from "./dto/assign-program.dto";
-import { ActivityLogService } from "src/activity-log/activity-log.service";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { ActivityLogService } from "../activity-log/activity-log.service";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Injectable()
 export class SupportProgramService {

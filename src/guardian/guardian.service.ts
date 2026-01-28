@@ -1,10 +1,10 @@
-// src/guardian/guardian.service.ts
+// ../guardian/guardian.service.ts
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import { CreateGuardianDto } from "./dto/create-guardian.dto";
 import { UpdateGuardianDto } from "./dto/update-guardian.dto";
-import { ActivityLogService } from "src/activity-log/activity-log.service";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { ActivityLogService } from "../activity-log/activity-log.service";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Injectable()
 export class GuardianService {

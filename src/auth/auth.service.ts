@@ -2,12 +2,12 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { AuthDto, ForgotPasswordDto, PayloadDto } from './dto/auth.dto';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { UpdateUserDto } from 'src/user/dto/update-user.dto';
-import { DonorService } from 'src/donor/donor.service';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { UpdateUserDto } from '../user/dto/update-user.dto';
+import { DonorService } from '../donor/donor.service';
 import * as nodemailer from 'nodemailer';
-import { CreateDonorDto } from 'src/donor/dto/create-donor.dto';
+import { CreateDonorDto } from '../donor/dto/create-donor.dto';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()

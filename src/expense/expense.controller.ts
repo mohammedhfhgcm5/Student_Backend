@@ -28,9 +28,9 @@ import { ExpenseReportDto } from './dto/report.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { ExpenseTargetType } from '@prisma/client';
-import { currentUser } from 'src/auth/decorator/current.user.decorator';
-import { PayloadDto } from 'src/auth/dto/auth.dto';
-import { Roles } from 'src/auth/decorator/roles.decorator';
+import { currentUser } from '../auth/decorator/current.user.decorator';
+import { PayloadDto } from '../auth/dto/auth.dto';
+import { Roles } from '../auth/decorator/roles.decorator';
 
 @Controller('expenses')
 // @UseGuards(JwtAuthGuard, RolesGuard)

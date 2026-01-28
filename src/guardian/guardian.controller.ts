@@ -14,9 +14,9 @@ import {
 import { GuardianService } from "./guardian.service";
 import { CreateGuardianDto } from "./dto/create-guardian.dto";
 import { UpdateGuardianDto } from "./dto/update-guardian.dto";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { currentUser } from "src/auth/decorator/current.user.decorator";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { currentUser } from "../auth/decorator/current.user.decorator";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Controller("guardians")
  @UseGuards(JwtAuthGuard)

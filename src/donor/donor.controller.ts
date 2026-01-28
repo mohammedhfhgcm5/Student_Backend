@@ -15,9 +15,9 @@ import {
 import { DonorService } from './donor.service';
 import { CreateDonorDto } from './dto/create-donor.dto';
 import { UpdateDonorDto } from './dto/update-donor.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { currentUser } from 'src/auth/decorator/current.user.decorator';
-import { PayloadDto } from 'src/auth/dto/auth.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { currentUser } from '../auth/decorator/current.user.decorator';
+import { PayloadDto } from '../auth/dto/auth.dto';
 import { UpdateDonorProfileDto } from './dto/update-donor-profile.dto';
 
 @Controller('donors')

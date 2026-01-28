@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, DonorForgotPasswordDto, ForgotPasswordDto, PayloadDto } from './dto/auth.dto';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { UpdateUserDto } from 'src/user/dto/update-user.dto';
-import { CreateDonorDto } from 'src/donor/dto/create-donor.dto';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { UpdateUserDto } from '../user/dto/update-user.dto';
+import { CreateDonorDto } from '../donor/dto/create-donor.dto';
 import type { Response } from 'express'; 
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { currentUser } from './decorator/current.user.decorator';

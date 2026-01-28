@@ -1,10 +1,10 @@
-// src/location/location.service.ts
+// ../location/location.service.ts
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import { CreateLocationDto } from "./dto/create-location.dto";
 import { UpdateLocationDto } from "./dto/update-location.dto";
-import { ActivityLogService } from "src/activity-log/activity-log.service";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { ActivityLogService } from "../activity-log/activity-log.service";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Injectable()
 export class LocationService {

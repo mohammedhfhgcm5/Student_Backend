@@ -16,9 +16,9 @@ import { DonationService } from './donation.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
 import { UpdateDonationDto } from './dto/update-donation.dto';
 import { CreateExpenseDto } from './dto/create-expense.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { PayloadDto } from 'src/auth/dto/auth.dto';
-import { currentUser } from 'src/auth/decorator/current.user.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { PayloadDto } from '../auth/dto/auth.dto';
+import { currentUser } from '../auth/decorator/current.user.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('donations')

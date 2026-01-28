@@ -15,9 +15,9 @@ import {
 import { LocationService } from "./location.service";
 import { CreateLocationDto } from "./dto/create-location.dto";
 import { UpdateLocationDto } from "./dto/update-location.dto";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { currentUser } from "src/auth/decorator/current.user.decorator";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { currentUser } from "../auth/decorator/current.user.decorator";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Controller("locations")
 @UseGuards(JwtAuthGuard)

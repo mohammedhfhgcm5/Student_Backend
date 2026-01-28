@@ -1,4 +1,4 @@
-// src/donation/donation.service.ts
+// ../donation/donation.service.ts
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
@@ -6,8 +6,8 @@ import { UpdateDonationDto } from './dto/update-donation.dto';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 
 import { Donation, DonationStatus, Prisma, PrismaClient } from '@prisma/client';
-import { NotificationsService } from 'src/notification/notification.service';
-import { PayloadDto } from 'src/auth/dto/auth.dto';
+import { NotificationsService } from '../notification/notification.service';
+import { PayloadDto } from '../auth/dto/auth.dto';
 
 
 interface AllocationInput {

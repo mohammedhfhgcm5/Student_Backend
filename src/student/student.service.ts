@@ -1,11 +1,11 @@
-// src/student/student.service.ts
+// ../student/student.service.ts
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import { CreateStudentDto } from "./dto/create-student.dto";
 import { UpdateStudentDto } from "./dto/update-student.dto";
 import { Gender, StudentStatus } from "@prisma/client";
-import { ActivityLogService } from "src/activity-log/activity-log.service";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { ActivityLogService } from "../activity-log/activity-log.service";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Injectable()
 export class StudentService {

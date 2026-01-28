@@ -13,9 +13,9 @@ import { SupportProgramService } from "./support-program.service";
 import { CreateSupportProgramDto } from "./dto/create-support-program.dto";
 import { UpdateSupportProgramDto } from "./dto/update-support-program.dto";
 import { AssignProgramDto } from "./dto/assign-program.dto";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { currentUser } from "src/auth/decorator/current.user.decorator";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { currentUser } from "../auth/decorator/current.user.decorator";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Controller("programs")
 @UseGuards(JwtAuthGuard)

@@ -1,10 +1,10 @@
-// src/dropout-reason/dropout-reason.service.ts
+// ../dropout-reason/dropout-reason.service.ts
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import { CreateDropoutReasonDto } from "./dto/create-dropout-reason.dto";
 import { UpdateDropoutReasonDto } from "./dto/update-dropout-reason.dto";
-import { PayloadDto } from "src/auth/dto/auth.dto";
-import { ActivityLogService } from "src/activity-log/activity-log.service";
+import { PayloadDto } from "../auth/dto/auth.dto";
+import { ActivityLogService } from "../activity-log/activity-log.service";
 
 @Injectable()
 export class DropoutReasonService {

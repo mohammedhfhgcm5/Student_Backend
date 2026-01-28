@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { DonationPurposeService } from './donation-purpose.service';
 import { DonationPurposeController } from './donation-purpose.controller';
 import { PrismaService } from 'prisma/prisma.service';
-import { NotificationModule } from 'src/notification/notification.module';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [NotificationModule], 

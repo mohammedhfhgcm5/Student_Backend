@@ -3,8 +3,8 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import { CreateSchoolDto } from "./dto/create-school.dto";
 import { UpdateSchoolDto } from "./dto/update-school.dto";
-import { ActivityLogService } from "src/activity-log/activity-log.service";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { ActivityLogService } from "../activity-log/activity-log.service";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Injectable()
 export class SchoolService {

@@ -2,11 +2,11 @@ import { Controller, Get, Post, Body, Param, Put, Delete, ParseIntPipe, UseGuard
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Roles } from 'src/auth/decorator/roles.decorator';
+import { Roles } from '../auth/decorator/roles.decorator';
 import { Role } from '@prisma/client';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { currentUser } from 'src/auth/decorator/current.user.decorator';
-import { PayloadDto } from 'src/auth/dto/auth.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { currentUser } from '../auth/decorator/current.user.decorator';
+import { PayloadDto } from '../auth/dto/auth.dto';
 
 @Controller('users')
 export class UserController {

@@ -14,9 +14,9 @@ import {
 import { FollowUpVisitService } from "./follow-up-visit.service";
 import { CreateFollowUpVisitDto } from "./dto/create-follow-up-visit.dto";
 import { UpdateFollowUpVisitDto } from "./dto/update-follow-up-visit.dto";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { currentUser } from "src/auth/decorator/current.user.decorator";
-import { PayloadDto } from "src/auth/dto/auth.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { currentUser } from "../auth/decorator/current.user.decorator";
+import { PayloadDto } from "../auth/dto/auth.dto";
 
 @Controller("follow-up-visits")
 @UseGuards(JwtAuthGuard)

@@ -1,12 +1,12 @@
-// src/follow-up-visit/follow-up-visit.service.ts
+// ../follow-up-visit/follow-up-visit.service.ts
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import { CreateFollowUpVisitDto } from "./dto/create-follow-up-visit.dto";
 import { UpdateFollowUpVisitDto } from "./dto/update-follow-up-visit.dto";
-import { ActivityLogService } from "src/activity-log/activity-log.service";
-import { PayloadDto } from "src/auth/dto/auth.dto";
-import { NotificationsService } from "src/notification/notification.service";
-import { UserService } from "src/user/user.service";
+import { ActivityLogService } from "../activity-log/activity-log.service";
+import { PayloadDto } from "../auth/dto/auth.dto";
+import { NotificationsService } from "../notification/notification.service";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class FollowUpVisitService {
